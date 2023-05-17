@@ -12,9 +12,11 @@ public class Desafio1Application {
 		SpringApplication.run(Desafio1Application.class, args);
 		System.out.println("***************Hola mundo*****************");
 	}
+	/*
 	@Bean
 	CommandLineRunner commandLineRunner(CamionetaRepository camionetaRepository, CamionetaRepository sedanRepository, CamionetaRepository suvRepository) {
 		return args -> {
 		};
 	}
+	*/
 }
