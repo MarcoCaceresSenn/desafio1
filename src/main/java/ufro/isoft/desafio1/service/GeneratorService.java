@@ -25,51 +25,22 @@ public class GeneratorService {
     private Camioneta generarCamioneta(){
         Marca marca = generarMarca(5);
         String automovil = String.valueOf(marca).split("_")[0];
-        Camioneta camioneta = new Camioneta(String.valueOf(marca), generarAnio(), generarColor(),
+        return new Camioneta(String.valueOf(marca), generarAnio(), generarColor(),
                 String.valueOf(marca.getPrecio()), tieneTurbo(), generarMotor(automovil),TipoAutomovil.CAMIONETA, tieneModificacion());
-        Map<String, Object> mapCamioneta = new HashMap<>();
-        mapCamioneta.put("Tipo", camioneta.getTipo());
-        mapCamioneta.put("Marca", camioneta.getMarca());
-        mapCamioneta.put("Año", camioneta.getAnio());
-        mapCamioneta.put("Color", camioneta.getColor());
-        mapCamioneta.put("Turbo", camioneta.isTurbo());
-        mapCamioneta.put("Motor", camioneta.getMotor());
-        mapCamioneta.put("Doble cabina", camioneta.isCabinas());
-        mapCamioneta.put("Precio", camioneta.getPrecio());
-        return camioneta;
     }
     /*------------------|GENERAR SEDAN|--------------------*/
-    private Map<String, Object> generarSedan(){
+    private Sedan generarSedan(){
         Marca marca = generarMarca(0);
         String automovil = String.valueOf(marca).split("_")[0];
-        Sedan sedan = new Sedan(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), tieneTurbo(),
+        return new Sedan(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), tieneTurbo(),
                 generarMotor(automovil), TipoAutomovil.SEDAN);
-        Map<String, Object> mapSedan = new HashMap<>();
-        mapSedan.put("Tipo", sedan.getTipo());
-        mapSedan.put("Marca", sedan.getMarca());
-        mapSedan.put("Año", sedan.getAnio());
-        mapSedan.put("Color", sedan.getColor());
-        mapSedan.put("Turbo", sedan.isTurbo());
-        mapSedan.put("Motor", sedan.getMotor());
-        mapSedan.put("Precio", sedan.getPrecio());
-        return mapSedan;
     }
     /*--------------------|GENERAR SUV|-----------------------*/
-    private Map<String, Object> generarSuv(){
+    private Suv generarSuv(){
         Marca marca = generarMarca(10);
         String automovil = String.valueOf(marca).split("_")[0];
-        Suv suv = new Suv(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), tieneTurbo(),
+        return new Suv(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), tieneTurbo(),
                 generarMotor(automovil), TipoAutomovil.SUV, tieneModificacion());
-        Map <String, Object> mapSuv = new HashMap<>();
-        mapSuv.put("Tipo", suv.getTipo());
-        mapSuv.put("Marca", suv.getMarca());
-        mapSuv.put("Año", suv.getAnio());
-        mapSuv.put("Color", suv.getColor());
-        mapSuv.put("Turbo", suv.isTurbo());
-        mapSuv.put("Motor", suv.getMotor());
-        mapSuv.put("Sunroof", suv.isSunroof());
-        mapSuv.put("Precio", suv.getPrecio());
-        return mapSuv;
     }
     /*--------------|GENERAR UN COLOR AL AZAR|---------------*/
     private String generarColor() {
@@ -126,18 +97,73 @@ public class GeneratorService {
     }
 
     /*-----------------------|GENERAR N AUTOMOVILES AL AZAR Y ALMACENAR EN ARCHIVO JSON|----------------------*/
-    private void generarAutomoviles(int numeroAutomovilesAGenerar){
-        String outputPath = "C:/Users/lilsa/OneDrive/Escritorio";
-        String fileName = "automoviles.csv";
-        //falta agregar el metodo para convertir esto a csv con openCSV
-
-        String filePath = outputPath + "/" + fileName;
+    public void generarAutomoviles(int numeroAutomovilesAGenerar){
+        Random rnd = new Random();
         for (int indice = 0; indice <= numeroAutomovilesAGenerar; indice++){
-            Random rnd = new Random();
-
+            int indiceAuto = rnd.nextInt(3);
+            guardarAutomovilSegunTipo(indiceAuto);
         }
     }
-
+    /*----------------------|GENERAR AUTOMOVILES SEGUN TIPO Y GUARDAR|------------------------*/
+    private void guardarAutomovilSegunTipo(int indiceAuto){
+        if (indiceAuto == 0){
+            guardarSedan();
+        } else if (indiceAuto == 1) {
+            guardarCamioneta();
+        }
+        else{
+            guardarSuv();
+        }
+    }
+    private void guardarCamioneta(){
+        this.camionetaRepository.save(generarCamioneta());
+    }
+    private void guardarSedan(){
+        this.sedanRepository.save(generarSedan());
+    }
+    private void guardarSuv(){
+        this.suvRepository.save(generarSuv());
+    }
+    /*-------------------------|MOSTRAR LISTA DE AUTOMOVILES CREADOS|------------------------*/
+    public void mostrarListaSedanes(){
+        sedanRepository.findAll();
+        /*mostrar por consola -------- provicional*/
+        System.out.println("Lista de Sedanes: ");
+        if (sedanRepository.findAll().isEmpty()){
+            System.out.println("No hay sedanes");
+        }
+        else{
+            for (Sedan sedan : sedanRepository.findAll()){
+                System.out.println(sedan);
+            }
+        }
+    }
+    public void mostrarListaCamionetas(){
+        camionetaRepository.findAll();
+        /*mostrar por consola -------- provicional*/
+        System.out.println("Lista de Camionetas: ");
+        if (camionetaRepository.findAll().isEmpty()){
+            System.out.println("No hay camionetas");
+        }
+        else{
+            for (Camioneta camioneta : camionetaRepository.findAll()){
+                System.out.println(camioneta);
+            }
+        }
+    }
+    public void mostrarListaSuv(){
+        suvRepository.findAll();
+        /*mostrar por consola -------- provicional*/
+        System.out.println("Lista de SUV: ");
+        if (suvRepository.findAll().isEmpty()){
+            System.out.println("No hay SUV");
+        }
+        else{
+            for (Suv suv : suvRepository.findAll()){
+                System.out.println(suv);
+            }
+        }
+    }
 
 
 }
