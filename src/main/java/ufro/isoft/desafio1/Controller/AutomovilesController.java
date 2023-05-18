@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AutomovilesController {
     @GetMapping("automoviles")
     public String vistaAutomoviles() {
-        return "vistaAutom  oviles";
+        return "/vistaAutomoviles";
     }
 }
