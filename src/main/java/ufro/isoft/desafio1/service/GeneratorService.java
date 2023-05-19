@@ -1,6 +1,7 @@
 package ufro.isoft.desafio1.service;
 
 import org.springframework.stereotype.Service;
+import ufro.isoft.desafio1.model.Automovil;
 import ufro.isoft.desafio1.model.Camioneta;
 import ufro.isoft.desafio1.model.Sedan;
 import ufro.isoft.desafio1.model.Suv;
@@ -125,44 +126,12 @@ public class GeneratorService {
         this.suvRepository.save(generarSuv());
     }
     /*-------------------------|MOSTRAR LISTA DE AUTOMOVILES CREADOS|------------------------*/
-    public void mostrarListaSedanes(){
-        sedanRepository.findAll();
-        /*mostrar por consola -------- provicional*/
-        System.out.println("Lista de Sedanes: ");
-        if (sedanRepository.findAll().isEmpty()){
-            System.out.println("No hay sedanes");
-        }
-        else{
-            for (Sedan sedan : sedanRepository.findAll()){
-                System.out.println(sedan);
-            }
-        }
-    }
-    public void mostrarListaCamionetas(){
-        camionetaRepository.findAll();
-        /*mostrar por consola -------- provicional*/
-        System.out.println("Lista de Camionetas: ");
-        if (camionetaRepository.findAll().isEmpty()){
-            System.out.println("No hay camionetas");
-        }
-        else{
-            for (Camioneta camioneta : camionetaRepository.findAll()){
-                System.out.println(camioneta);
-            }
-        }
-    }
-    public void mostrarListaSuv(){
-        suvRepository.findAll();
-        /*mostrar por consola -------- provicional*/
-        System.out.println("Lista de SUV: ");
-        if (suvRepository.findAll().isEmpty()){
-            System.out.println("No hay SUV");
-        }
-        else{
-            for (Suv suv : suvRepository.findAll()){
-                System.out.println(suv);
-            }
-        }
+    public List<Automovil> mostrarAutomoviles(){
+        List<Automovil> automoviles = new ArrayList<>();
+        automoviles.addAll(this.camionetaRepository.findAll());
+        automoviles.addAll(this.sedanRepository.findAll());
+        automoviles.addAll(this.suvRepository.findAll());
+        return automoviles;
     }
 
 
