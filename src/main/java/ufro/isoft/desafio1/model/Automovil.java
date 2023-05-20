@@ -20,8 +20,8 @@ public class Automovil {
     private String color;
     @Column(name = "precio", length = 10, nullable = false)
     private String precio;
-    @Column(name = "turbo", nullable = false)
-    private boolean turbo;
+    @Column(name = "turbo", length = 10, nullable = false)
+    private String turbo;
     @Column(name = "motor", length = 5, nullable = false)
     private String motor;
 

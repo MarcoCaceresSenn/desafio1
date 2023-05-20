@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ufro.isoft.desafio1.service.TipoAutomovil;
 
 @Entity
 @Getter
@@ -15,12 +14,12 @@ public class Suv extends Automovil{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "tipo")
-    private TipoAutomovil tipo;
+    @Column(name = "tipo", length = 15, nullable = false)
+    private String tipo;
     @Column(name = "sunroof", nullable = false)
-    private boolean sunroof;
+    private String sunroof;
 
-    public Suv(String marca, int anio, String color, String precio, boolean turbo, String motor, TipoAutomovil tipo, boolean sunroof){
+    public Suv(String marca, int anio, String color, String precio, String turbo, String motor, String tipo, String sunroof){
         super(marca, anio, color, precio, turbo, motor);
         this.tipo = tipo;
         this.sunroof = sunroof;
