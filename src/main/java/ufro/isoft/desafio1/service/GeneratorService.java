@@ -25,23 +25,20 @@ public class GeneratorService {
     /*-----------------|GENERAR CAMIONETA|------------------*/
     private Camioneta generarCamioneta(){
         Marca marca = generarMarca(5);
-        String automovil = String.valueOf(marca).split("_")[0];
         return new Camioneta(String.valueOf(marca), generarAnio(), generarColor(),
-                String.valueOf(marca.getPrecio()), tieneTurbo(), generarMotor(automovil),TipoAutomovil.CAMIONETA, tieneModificacion());
+                String.valueOf(marca.getPrecio()), "SI", generarMotorCamioneta(),"CAMIONETA", "SI");
     }
     /*------------------|GENERAR SEDAN|--------------------*/
     private Sedan generarSedan(){
         Marca marca = generarMarca(0);
-        String automovil = String.valueOf(marca).split("_")[0];
-        return new Sedan(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), tieneTurbo(),
-                generarMotor(automovil), TipoAutomovil.SEDAN);
+        return new Sedan(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), "SI",
+                generarMotorSedan(), "SEDAN");
     }
     /*--------------------|GENERAR SUV|-----------------------*/
     private Suv generarSuv(){
         Marca marca = generarMarca(10);
-        String automovil = String.valueOf(marca).split("_")[0];
-        return new Suv(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), tieneTurbo(),
-                generarMotor(automovil), TipoAutomovil.SUV, tieneModificacion());
+        return new Suv(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), "SI",
+                generarMotorSuv(), "SUV", "SI");
     }
     /*--------------|GENERAR UN COLOR AL AZAR|---------------*/
     private String generarColor() {
@@ -52,39 +49,43 @@ public class GeneratorService {
     /*----------------|CAMIONETA: GENERAR BOOLEAN QUE DEVUELVA TRUE SI CAMIONETA TIENE DOBLE CABINA Y FALSE SI TIENE SOLO UNA|-----------------*/
     /*----------------|SUV: GENERAR BOOLEAN QUE DEVUELVA TRUE SI SUV TIENE SUNROOF Y FALSE SI NO|-----------------*/
 
-    private boolean tieneModificacion(){
-        Random rnd = new Random();
-        return rnd.nextBoolean();
-    }
     /*----------------|GENERAR UN BOOLEAN QUE DEVUELVA TRUE SI TIENE TURBO Y FALSE SI NO|-----------------*/
-    private boolean tieneTurbo(){
-        Random rnd = new Random();
-        return rnd.nextBoolean();
-    }
+
     /*----------------------|GENERAR MOTOR SEGUN TIPO DE AUTOMOVIL|-------------------*/
-    private String generarMotor(String automovil){
+    private String generarMotorSedan(){
         Random rnd = new Random();
-        if (automovil.equals("CAMIONETA")){
-            ArrayList<String> motorCamioneta = new ArrayList<>();
-            motorCamioneta.add("2.4cc");
-            motorCamioneta.add("3.0cc");
-            motorCamioneta.add("4.0cc");
-            return motorCamioneta.get(rnd.nextInt(motorCamioneta.size()));
-        } else if (automovil.equals("SEDAN")) {
-            ArrayList<String> motorSedan = new ArrayList<>();
-            motorSedan.add("1.4cc");
-            motorSedan.add("1.6cc");
-            motorSedan.add("2.0cc");
-            return motorSedan.get(rnd.nextInt(motorSedan.size()));
-        }
-        else {
-            ArrayList<String> motorSUV = new ArrayList<>();
-            motorSUV.add("1.8cc");
-            motorSUV.add("2.2cc");
-            motorSUV.add("2.8cc");
-            return motorSUV.get(rnd.nextInt(motorSUV.size()));
-        }
+        return crearMotoresSedan().get(rnd.nextInt(crearMotoresSedan().size()));
     }
+    private String generarMotorCamioneta(){
+        Random rnd = new Random();
+        return crearMotoresCamioneta().get(rnd.nextInt(crearMotoresCamioneta().size()));
+    }
+    private String generarMotorSuv(){
+        Random rnd = new Random();
+        return crearMotoresSuv().get(rnd.nextInt(crearMotoresSuv().size()));
+    }
+    private ArrayList<String> crearMotoresSedan(){
+        ArrayList<String> motoresSedan = new ArrayList<>();
+        motoresSedan.add("1.4cc");
+        motoresSedan.add("1.6cc");
+        motoresSedan.add("2.0cc");
+        return motoresSedan;
+    }
+    private ArrayList<String> crearMotoresCamioneta(){
+        ArrayList<String> motoresCamioneta = new ArrayList<>();
+        motoresCamioneta.add("2.4cc");
+        motoresCamioneta.add("3.0cc");
+        motoresCamioneta.add("4.0cc");
+        return motoresCamioneta;
+    }
+    private ArrayList<String> crearMotoresSuv(){
+        ArrayList<String> motoresSuv = new ArrayList<>();
+        motoresSuv.add("1.8cc");
+        motoresSuv.add("2.2cc");
+        motoresSuv.add("2.8cc");
+        return motoresSuv;
+    }
+
     /*-----------------|GENERAR MARCA AL AZAR SEGUN POSICIÓN INICIAL EN ENUM DE 'MARCAS SEGUN TIPO'|----------------*/
     /*-------------------------|CADA MARCA TIENE ASOCIADO UN PRECIO EN PESOS CHILENOS|-----------------------*/
     private Marca generarMarca(int parametroInicialEnum){/*parametroInicialEnum recibe la posicion inicial dentro del enum de la marca corresponiente a su tipo de vehiculo*/
@@ -117,21 +118,42 @@ public class GeneratorService {
         }
     }
     private void guardarCamioneta(){
-        this.camionetaRepository.save(generarCamioneta());
+        camionetaRepository.save(generarCamioneta());
     }
     private void guardarSedan(){
-        this.sedanRepository.save(generarSedan());
+        sedanRepository.save(generarSedan());
     }
     private void guardarSuv(){
-        this.suvRepository.save(generarSuv());
+        suvRepository.save(generarSuv());
     }
     /*-------------------------|MOSTRAR LISTA DE AUTOMOVILES CREADOS|------------------------*/
     public List<Automovil> mostrarAutomoviles(){
         List<Automovil> automoviles = new ArrayList<>();
-        automoviles.addAll(this.camionetaRepository.findAll());
-        automoviles.addAll(this.sedanRepository.findAll());
-        automoviles.addAll(this.suvRepository.findAll());
+        automoviles.addAll(camionetaRepository.findAll());
+        automoviles.addAll(sedanRepository.findAll());
+        automoviles.addAll(suvRepository.findAll());
         return automoviles;
+    }
+    /*--------------------|FILTRAR CAMIONETAS|----------------*/
+    public List<Camioneta> mostrarCamionetas(){
+        if (camionetaRepository.findAll().isEmpty()){
+            return null;
+        }
+        return camionetaRepository.findAll();
+    }
+    /*--------------------|FILTRAR SEDAN|----------------*/
+    public List<Sedan> mostrarSedan(){
+        if (sedanRepository.findAll().isEmpty()){
+            return null;
+        }
+        return sedanRepository.findAll();
+    }
+    /*--------------------|FILTRAR SUV|----------------*/
+    public List<Suv> mostrarSuv(){
+        if (suvRepository.findAll().isEmpty()){
+            return null;
+        }
+        return suvRepository.findAll();
     }
 
 
