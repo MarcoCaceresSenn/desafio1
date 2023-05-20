@@ -1,5 +1,6 @@
 package ufro.isoft.desafio1.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ufro.isoft.desafio1.model.Automovil;
 import ufro.isoft.desafio1.model.Camioneta;
@@ -13,15 +14,16 @@ import java.util.*;
 
 @Service
 public class GeneratorService {
-    final private CamionetaRepository camionetaRepository;
-    final private SedanRepository sedanRepository;
-    final private SuvRepository suvRepository;
 
-    public GeneratorService(CamionetaRepository camionetaRepository, SedanRepository sedanRepository, SuvRepository suvRepository) {
-        this.camionetaRepository = camionetaRepository;
-        this.sedanRepository = sedanRepository;
-        this.suvRepository = suvRepository;
-    }
+    @Autowired
+     CamionetaRepository camionetaRepository;
+     
+    @Autowired
+    SedanRepository sedanRepository;
+
+    @Autowired
+    SuvRepository suvRepository;
+
     /*-----------------|GENERAR CAMIONETA|------------------*/
     private Camioneta generarCamioneta(){
         Marca marca = generarMarca(5);
