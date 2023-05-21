@@ -157,6 +157,12 @@ public class GeneratorService {
         }
         return suvRepository.findAll();
     }
-
+ 
+    public List<Camioneta> mostrarFiltradroPrecio(String precio){
+    if(camionetaRepository.findAllByPrecio(precio).isEmpty()){
+        return null;
+    }
+    return camionetaRepository.findAllByPrecio(precio);
+}
 
 }

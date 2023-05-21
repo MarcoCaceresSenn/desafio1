@@ -10,6 +10,7 @@ import ufro.isoft.desafio1.respository.CamionetaRepository;
 import ufro.isoft.desafio1.respository.SedanRepository;
 import ufro.isoft.desafio1.respository.SuvRepository;
 
+
 @SpringBootApplication
 public class Desafio1Application {
 	public static void main(String[] args) {
