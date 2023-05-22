@@ -16,10 +16,10 @@ public class Camioneta extends Automovil{
     private int id;
     @Column(name = "tipo", length = 15, nullable = false)
     private String tipo;
-    @Column(name = "cabinas", nullable = false)
-    private String cabinas;
+    @Column(name = "cabinas", length = 5, nullable = false)
+    private boolean cabinas;
 
-    public Camioneta(String marca, int anio, String color, String precio, String turbo, String motor, String tipo, String cabinas){
+    public Camioneta(String marca, int anio, String color, String precio, boolean turbo, String motor, String tipo, boolean cabinas){
         super(marca, anio, color, precio, turbo, motor);
         this.tipo = tipo;
         this.cabinas = cabinas;
