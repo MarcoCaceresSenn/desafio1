@@ -26,19 +26,19 @@ public class GeneratorService {
     private Camioneta generarCamioneta(){
         Marca marca = generarMarca(5);
         return new Camioneta(String.valueOf(marca), generarAnio(), generarColor(),
-                String.valueOf(marca.getPrecio()), "SI", generarMotorCamioneta(),"CAMIONETA", "SI");
+                String.valueOf(marca.getPrecio()), generarBoolean(), generarMotorCamioneta(),generarPopularidad(),"CAMIONETA", generarBoolean());
     }
     /*------------------|GENERAR SEDAN|--------------------*/
     private Sedan generarSedan(){
         Marca marca = generarMarca(0);
-        return new Sedan(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), "SI",
-                generarMotorSedan(), "SEDAN");
+        return new Sedan(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), generarBoolean(),
+                generarMotorSedan(),generarPopularidad(), "SEDAN");
     }
     /*--------------------|GENERAR SUV|-----------------------*/
     private Suv generarSuv(){
         Marca marca = generarMarca(10);
-        return new Suv(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), "SI",
-                generarMotorSuv(), "SUV", "SI");
+        return new Suv(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()),generarBoolean(),
+                generarMotorSuv(),generarPopularidad(), "SUV", generarBoolean());
     }
     /*--------------|GENERAR UN COLOR AL AZAR|---------------*/
     private String generarColor() {
@@ -48,8 +48,11 @@ public class GeneratorService {
     }
     /*----------------|CAMIONETA: GENERAR BOOLEAN QUE DEVUELVA TRUE SI CAMIONETA TIENE DOBLE CABINA Y FALSE SI TIENE SOLO UNA|-----------------*/
     /*----------------|SUV: GENERAR BOOLEAN QUE DEVUELVA TRUE SI SUV TIENE SUNROOF Y FALSE SI NO|-----------------*/
-
     /*----------------|GENERAR UN BOOLEAN QUE DEVUELVA TRUE SI TIENE TURBO Y FALSE SI NO|-----------------*/
+    private boolean generarBoolean(){
+        Random rnd = new Random();
+        return rnd.nextBoolean();
+    }
 
     /*----------------------|GENERAR MOTOR SEGUN TIPO DE AUTOMOVIL|-------------------*/
     private String generarMotorSedan(){
@@ -66,24 +69,27 @@ public class GeneratorService {
     }
     private ArrayList<String> crearMotoresSedan(){
         ArrayList<String> motoresSedan = new ArrayList<>();
-        motoresSedan.add("1.4cc");
-        motoresSedan.add("1.6cc");
-        motoresSedan.add("2.0cc");
+        guardarMotor(motoresSedan, "1.4cc");
+        guardarMotor(motoresSedan, "1.6cc");
+        guardarMotor(motoresSedan, "2.0cc");
         return motoresSedan;
     }
     private ArrayList<String> crearMotoresCamioneta(){
         ArrayList<String> motoresCamioneta = new ArrayList<>();
-        motoresCamioneta.add("2.4cc");
-        motoresCamioneta.add("3.0cc");
-        motoresCamioneta.add("4.0cc");
+        guardarMotor(motoresCamioneta, "2.4cc");
+        guardarMotor(motoresCamioneta, "3.0cc");
+        guardarMotor(motoresCamioneta, "4.0cc");
         return motoresCamioneta;
     }
     private ArrayList<String> crearMotoresSuv(){
         ArrayList<String> motoresSuv = new ArrayList<>();
-        motoresSuv.add("1.8cc");
-        motoresSuv.add("2.2cc");
-        motoresSuv.add("2.8cc");
+        guardarMotor(motoresSuv, "1.8cc");
+        guardarMotor(motoresSuv, "2.2cc");
+        guardarMotor(motoresSuv, "2.8cc");
         return motoresSuv;
+    }
+    private void guardarMotor(ArrayList<String> motores, String motor){
+        motores.add(motor);
     }
 
     /*-----------------|GENERAR MARCA AL AZAR SEGUN POSICIÓN INICIAL EN ENUM DE 'MARCAS SEGUN TIPO'|----------------*/
@@ -134,27 +140,45 @@ public class GeneratorService {
         automoviles.addAll(suvRepository.findAll());
         return automoviles;
     }
-    /*--------------------|FILTRAR CAMIONETAS|----------------*/
-    public List<Camioneta> mostrarCamionetas(){
-        if (camionetaRepository.findAll().isEmpty()){
-            return null;
+    /*-----------------------|filtrar precio < numero ingresado|-----------------------*/
+    public List<Automovil> filtrarPrecioMenor(int numero){
+        List<Automovil> automoviles = agregarAutomoviles();
+        List<Automovil> automovilesFiltrados = new ArrayList<>();
+        for (Automovil automovil : automoviles){
+            if (Integer.parseInt(automovil.getPrecio()) < numero){
+                automovilesFiltrados.add(automovil);
+            }
         }
-        return camionetaRepository.findAll();
+        return automovilesFiltrados;
     }
-    /*--------------------|FILTRAR SEDAN|----------------*/
-    public List<Sedan> mostrarSedan(){
-        if (sedanRepository.findAll().isEmpty()){
-            return null;
+    /*-----------------------|filtrar precio > numero ingresado|-----------------------*/
+    public List<Automovil> filtrarPrecioMayor(int numero){
+        List<Automovil> automoviles = agregarAutomoviles();
+        List<Automovil> automovilesFiltrados = new ArrayList<>();
+        for (Automovil automovil : automoviles){
+            if (Integer.parseInt(automovil.getPrecio()) > numero){
+                automovilesFiltrados.add(automovil);
+            }
         }
-        return sedanRepository.findAll();
+        return automovilesFiltrados;
     }
-    /*--------------------|FILTRAR SUV|----------------*/
-    public List<Suv> mostrarSuv(){
-        if (suvRepository.findAll().isEmpty()){
-            return null;
-        }
-        return suvRepository.findAll();
+
+    /*-------------------------|agregar automoviles a lista|-----------------------*/
+    private List<Automovil> agregarAutomoviles(){
+        List<Automovil> automoviles = new ArrayList<>();
+        automoviles.addAll(camionetaRepository.findAll());
+        automoviles.addAll(sedanRepository.findAll());
+        automoviles.addAll(suvRepository.findAll());
+        return automoviles;
     }
+
+
+    private String generarPopularidad(){
+        Random rnd=new Random();
+       
+        return  String.valueOf(rnd.nextInt(20000)); 
+    }
+
 
 
 }
