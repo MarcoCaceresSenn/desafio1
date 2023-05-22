@@ -14,6 +14,12 @@ public class InitController {
     @Autowired
     GeneratorService generatorService;
    
+
+    @GetMapping("/listar")
+    public List<Automovil> listar(){
+       return generatorService.mostrarAutomoviles();
+    }
+
     @RequestMapping("/generar")
     @ResponseBody
     public List<Automovil> generar(@RequestParam("cantidad") int cantidad){
@@ -21,14 +27,16 @@ public class InitController {
        return generatorService.mostrarAutomoviles();
     }
 
-    @GetMapping("/filtrar/menores/{precio}")
-    public List<Automovil> filtrarMenores(@PathVariable int precio) {
+    @RequestMapping("/filtrar/menores")
+    @ResponseBody
+    public List<Automovil> filtrarMenores(@RequestParam("precio") int precio) {
         return generatorService.filtrarPrecioMenor(precio);
     }
-    @GetMapping("/filtrar/mayores/{precio}")
-    public List<Automovil> filtrarMayores(@PathVariable int precio) {
+    @RequestMapping("/filtrar/mayores")
+    @ResponseBody
+    public List<Automovil> filtrarMayores(@RequestParam("precio") int precio) {
         return generatorService.filtrarPrecioMayor(precio);
     }
-    /**/
+  
 
 }
