@@ -24,5 +24,7 @@ public class Automovil {
     private boolean turbo;
     @Column(name = "motor", length = 5, nullable = false)
     private String motor;
+    @Column(name= "popularidad", length = 20,nullable = false )
+    private String popularidad;
 
 }

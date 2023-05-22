@@ -18,8 +18,8 @@ public class Sedan extends Automovil{
     @Column(name = "tipo", length = 15, nullable = false)
     private String tipo;
 
-    public Sedan(String marca, int anio, String color, String precio, boolean turbo, String motor, String tipo){
-        super(marca, anio, color, precio, turbo, motor);
+    public Sedan(String marca, int anio, String color, String precio, boolean turbo, String motor,String popularidad, String tipo){
+        super(marca, anio, color, precio, turbo, motor, popularidad);
         this.tipo = tipo;
     }
 }

@@ -9,16 +9,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/automoviles")
-@CrossOrigin("localhost:8081")
+@CrossOrigin("http://localhost:8081/")
 public class InitController {
     @Autowired
     GeneratorService generatorService;
+   
     @RequestMapping("/generar")
     @ResponseBody
-    public List<Automovil> listCars(@RequestParam("cantidad") int cantidad){
-        generatorService.generarAutomoviles(cantidad);
-        return generatorService.mostrarAutomoviles();
+    public List<Automovil> generar(@RequestParam("cantidad") int cantidad){
+       generatorService.generarAutomoviles(cantidad);
+       return generatorService.mostrarAutomoviles();
     }
+
     @GetMapping("/filtrar/menores/{precio}")
     public List<Automovil> filtrarMenores(@PathVariable int precio) {
         return generatorService.filtrarPrecioMenor(precio);

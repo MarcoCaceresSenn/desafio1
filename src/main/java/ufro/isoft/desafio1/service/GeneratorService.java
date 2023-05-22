@@ -26,19 +26,19 @@ public class GeneratorService {
     private Camioneta generarCamioneta(){
         Marca marca = generarMarca(5);
         return new Camioneta(String.valueOf(marca), generarAnio(), generarColor(),
-                String.valueOf(marca.getPrecio()), generarBoolean(), generarMotorCamioneta(),"CAMIONETA", generarBoolean());
+                String.valueOf(marca.getPrecio()), generarBoolean(), generarMotorCamioneta(),generarPopularidad(),"CAMIONETA", generarBoolean());
     }
     /*------------------|GENERAR SEDAN|--------------------*/
     private Sedan generarSedan(){
         Marca marca = generarMarca(0);
         return new Sedan(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), generarBoolean(),
-                generarMotorSedan(), "SEDAN");
+                generarMotorSedan(),generarPopularidad(), "SEDAN");
     }
     /*--------------------|GENERAR SUV|-----------------------*/
     private Suv generarSuv(){
         Marca marca = generarMarca(10);
-        return new Suv(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()), generarBoolean(),
-                generarMotorSuv(), "SUV", generarBoolean());
+        return new Suv(String.valueOf(marca), generarAnio(), generarColor(), String.valueOf(marca.getPrecio()),generarBoolean(),
+                generarMotorSuv(),generarPopularidad(), "SUV", generarBoolean());
     }
     /*--------------|GENERAR UN COLOR AL AZAR|---------------*/
     private String generarColor() {
@@ -170,6 +170,13 @@ public class GeneratorService {
         automoviles.addAll(sedanRepository.findAll());
         automoviles.addAll(suvRepository.findAll());
         return automoviles;
+    }
+
+
+    private String generarPopularidad(){
+        Random rnd=new Random();
+       
+        return  String.valueOf(rnd.nextInt(20000)); 
     }
 
 
