@@ -37,6 +37,4 @@ public class InitController {
     public List<Automovil> filtrarMayores(@RequestParam("precio") int precio) {
         return generatorService.filtrarPrecioMayor(precio);
     }
-  
-
 }
