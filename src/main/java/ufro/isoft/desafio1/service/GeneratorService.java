@@ -140,27 +140,38 @@ public class GeneratorService {
         automoviles.addAll(suvRepository.findAll());
         return automoviles;
     }
-    /*--------------------|FILTRAR CAMIONETAS|----------------*/
-    public List<Camioneta> mostrarCamionetas(){
-        if (camionetaRepository.findAll().isEmpty()){
-            return null;
+    /*-----------------------|filtrar precio < numero ingresado|-----------------------*/
+    public List<Automovil> filtrarPrecioMenor(int numero){
+        List<Automovil> automoviles = agregarAutomoviles();
+        List<Automovil> automovilesFiltrados = new ArrayList<>();
+        for (Automovil automovil : automoviles){
+            if (Integer.parseInt(automovil.getPrecio()) < numero){
+                automovilesFiltrados.add(automovil);
+            }
         }
-        return camionetaRepository.findAll();
+        return automovilesFiltrados;
     }
-    /*--------------------|FILTRAR SEDAN|----------------*/
-    public List<Sedan> mostrarSedan(){
-        if (sedanRepository.findAll().isEmpty()){
-            return null;
+    /*-----------------------|filtrar precio > numero ingresado|-----------------------*/
+    public List<Automovil> filtrarPrecioMayor(int numero){
+        List<Automovil> automoviles = agregarAutomoviles();
+        List<Automovil> automovilesFiltrados = new ArrayList<>();
+        for (Automovil automovil : automoviles){
+            if (Integer.parseInt(automovil.getPrecio()) > numero){
+                automovilesFiltrados.add(automovil);
+            }
         }
-        return sedanRepository.findAll();
+        return automovilesFiltrados;
     }
-    /*--------------------|FILTRAR SUV|----------------*/
-    public List<Suv> mostrarSuv(){
-        if (suvRepository.findAll().isEmpty()){
-            return null;
-        }
-        return suvRepository.findAll();
+
+    /*-------------------------|agregar automoviles a lista|-----------------------*/
+    private List<Automovil> agregarAutomoviles(){
+        List<Automovil> automoviles = new ArrayList<>();
+        automoviles.addAll(camionetaRepository.findAll());
+        automoviles.addAll(sedanRepository.findAll());
+        automoviles.addAll(suvRepository.findAll());
+        return automoviles;
     }
+
 
 
 }

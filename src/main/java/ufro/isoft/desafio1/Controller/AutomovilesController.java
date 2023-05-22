@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/automoviles")
-//@CrossOrigin("localhost:8080")
+@CrossOrigin("localhost:8080")
  public class AutomovilesController {
     @GetMapping("automoviles")
     public String vistaAutomoviles() {

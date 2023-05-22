@@ -1,36 +1,32 @@
 package ufro.isoft.desafio1.Controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import ufro.isoft.desafio1.model.Automovil;
-import ufro.isoft.desafio1.model.Camioneta;
-import ufro.isoft.desafio1.model.Sedan;
-import ufro.isoft.desafio1.model.Suv;
 import ufro.isoft.desafio1.service.GeneratorService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/automoviles")
+@CrossOrigin("localhost:8081")
 public class InitController {
+    @Autowired
     GeneratorService generatorService;
-    @GetMapping("/listar")
-    public List<Automovil> index() {
+    @RequestMapping("/generar")
+    @ResponseBody
+    public List<Automovil> listCars(@RequestParam("cantidad") int cantidad){
+        generatorService.generarAutomoviles(cantidad);
         return generatorService.mostrarAutomoviles();
     }
-    @GetMapping("/showSedan")
-    public List<Sedan> showSedan() {
-        return generatorService.mostrarSedan();
+    @GetMapping("/filtrar/menores/{precio}")
+    public List<Automovil> filtrarMenores(@PathVariable int precio) {
+        return generatorService.filtrarPrecioMenor(precio);
     }
-    @GetMapping("/showCamioneta")
-    public List<Camioneta> showCamioneta() {
-        return generatorService.mostrarCamionetas();
+    @GetMapping("/filtrar/mayores/{precio}")
+    public List<Automovil> filtrarMayores(@PathVariable int precio) {
+        return generatorService.filtrarPrecioMayor(precio);
     }
-    @GetMapping("/showSuv")
-    public List<Suv> showSuv() {
-        return generatorService.mostrarSuv();
-    }
+    /**/
 
 }
