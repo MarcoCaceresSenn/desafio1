@@ -44,7 +44,7 @@ public class GeneratorService {
     private String generarColor() {
         Random rnd = new Random();
         Color[] colores = Color.values();
-        return String.valueOf(colores[rnd.nextInt(5 - 1) + 1]);
+        return String.valueOf(colores[rnd.nextInt(5)]);
     }
     /*----------------|CAMIONETA: GENERAR BOOLEAN QUE DEVUELVA TRUE SI CAMIONETA TIENE DOBLE CABINA Y FALSE SI TIENE SOLO UNA|-----------------*/
     /*----------------|SUV: GENERAR BOOLEAN QUE DEVUELVA TRUE SI SUV TIENE SUNROOF Y FALSE SI NO|-----------------*/
